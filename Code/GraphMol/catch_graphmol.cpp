@@ -1410,3 +1410,16 @@ TEST_CASE("updateQueryParameters from JSON") {
     CHECK_THROWS_AS(MolOps::parseAdjustQueryParametersFromJSON(ps, json),ValueErrorException);
   }
 }
+
+TEST_CASE("phosphine and arsine chirality  ", "[Chirality]") {
+  SECTION("phosphines"){
+    std::unique_ptr<RWMol> mol(SmilesToMol("C[P@](C1CCCC1)C1=CC=CC=C1"));
+    REQUIRE(mol);
+    CHECK(mol->getAtomWithIdx(1)->getChiralTag() != Atom::CHI_UNSPECIFIED);
+  }
+  SECTION("arsines"){
+    std::unique_ptr<RWMol> mol(SmilesToMol("C[As@](C1CCCC1)C1=CC=CC=C1"));
+    REQUIRE(mol);
+    CHECK(mol->getAtomWithIdx(1)->getChiralTag() != Atom::CHI_UNSPECIFIED);
+  }
+}
