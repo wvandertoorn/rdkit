@@ -1472,4 +1472,26 @@ TEST_CASE("phosphine and arsine chirality", "[Chirality]") {
     REQUIRE(mol2);
     CHECK(MolToSmiles(*mol1) != MolToSmiles(*mol2));
   }
+  SECTION("fromBondDirs: P"){
+    ROMol mol1 = *SmilesToMol("C[P@H]C1=CC=CC=C1");
+    ROMol mol2 = *SmilesToMol("C[P@@H]C1=CC=CC=C1");
+    REQUIRE( &mol1 );
+    REQUIRE( &mol2 );
+    const int confId = 0;
+    const bool replaceExistingTags = 1;
+    MolOps::assignChiralTypesFromBondDirs( *&mol1, confId, replaceExistingTags);
+    MolOps::assignChiralTypesFromBondDirs( *&mol2, confId, replaceExistingTags);
+    CHECK(mol1.getAtomWithIdx(1)->getChiralTag() != mol2.getAtomWithIdx(1)->getChiralTag());
+  }
+  SECTION("fromBondDirs: As"){
+    ROMol mol1 = *SmilesToMol("C[As@H]C1=CC=CC=C1");
+    ROMol mol2 = *SmilesToMol("C[As@@H]C1=CC=CC=C1");
+    REQUIRE( &mol1 );
+    REQUIRE( &mol2 );
+    const int confId = 0;
+    const bool replaceExistingTags = 1;
+    MolOps::assignChiralTypesFromBondDirs( *&mol1, confId, replaceExistingTags);
+    MolOps::assignChiralTypesFromBondDirs( *&mol2, confId, replaceExistingTags);
+    CHECK(mol1.getAtomWithIdx(1)->getChiralTag() != mol2.getAtomWithIdx(1)->getChiralTag());
+  }
 }
